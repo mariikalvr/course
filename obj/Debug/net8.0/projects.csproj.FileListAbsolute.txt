@@ -1,0 +1,8 @@
+/home/dunice/projects/obj/Debug/net8.0/projects.csproj.AssemblyReference.cache
+/home/dunice/projects/obj/Debug/net8.0/projects.GeneratedMSBuildEditorConfig.editorconfig
+/home/dunice/projects/obj/Debug/net8.0/projects.AssemblyInfoInputs.cache
+/home/dunice/projects/obj/Debug/net8.0/projects.AssemblyInfo.cs
+/home/dunice/projects/obj/Debug/net8.0/projects.csproj.CoreCompileInputs.cache
+/home/dunice/projects/obj/Debug/net8.0/projects.MvcApplicationPartsAssemblyInfo.cs
+/home/dunice/projects/obj/Debug/net8.0/projects.MvcApplicationPartsAssemblyInfo.cache
+/home/dunice/projects/obj/Debug/net8.0/projects.sourcelink.json
