@@ -1,15 +1,17 @@
-using System;
-
-namespace projects.Damain.Entities
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using projects.Domain.Entities;
+namespace projects.Domain.Entities
 {
     public class Attendances
     {
+        [Key]
         public int Id { get; set; }
         public int LessonId { get; set; }
         public int StudentId { get; set; }
         public bool IsPresent { get; set; }
-        public Lesson Lesson { get; set; }
-        public User Student { get; set; }
+        public required List<Lesson> Lesson { get; set; }
+        public required List<User> Student { get; set; }
 
     }
 
