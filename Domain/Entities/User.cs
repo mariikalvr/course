@@ -13,9 +13,9 @@ namespace projects.Domain.Entities
         [Required]
         public required string PasswordHash { get; set; }
         public UserRole Role { get; set; }
-        public ICollection<Course> Courses { get; set; } // Курсы, созданные пользователем
-        public ICollection<StudentsInGroups> StudentGroups { get; set; } // Группы, в которых учится пользователь
-        public ICollection<Attendances> Attendances { get; set; } // Посещения
+        public required Course Courses { get; set; } // Курсы, созданные пользователем
+        public required StudentsInGroups StudentGroups { get; set; } // Группы, в которых учится пользователь
+        public required Attendances Attendances { get; set; } // Посещения
     }
     public enum UserRole
     {

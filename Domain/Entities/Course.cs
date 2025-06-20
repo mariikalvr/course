@@ -13,8 +13,8 @@ namespace projects.Domain.Entities
         public required string Name { get; set; }
         public required string Description { get; set; }
         public int CreatedById { get; set; }
-        public required List<User> CreatedBy { get; set; }
-        public required ICollection<Group> Groups { get; set; } // Группы, связанные с курсом
+        public required User CreatedBy { get; set; }
+        public required Group Groups { get; set; } // Группы, связанные с курсом
 
     }
 

@@ -11,9 +11,9 @@ namespace projects.Domain.Entities
         [MaxLength(100)]
         public required string Name { get; set; }
         public int CourseId { get; set; }
-        public required List<Course> Course { get; set; }
-        public ICollection<StudentsInGroups> Students { get; set; } // Студенты в группе
-        public ICollection<Lesson> Lessons { get; set; } // Уроки в группе
+        public required Course Course { get; set; }
+        public required StudentsInGroups Students { get; set; } // Студенты в группе
+        public required Lesson Lessons { get; set; } // Уроки в группе
     }
 
 }
