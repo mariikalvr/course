@@ -10,8 +10,8 @@ namespace projects.Domain.Entities
         public int LessonId { get; set; }
         public int StudentId { get; set; }
         public bool IsPresent { get; set; }
-        public required List<Lesson> Lesson { get; set; }
-        public required List<User> Student { get; set; }
+        public required Lesson Lesson { get; set; }
+        public required User Student { get; set; }
 
     }
 

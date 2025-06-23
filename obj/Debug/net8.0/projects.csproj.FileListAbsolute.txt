@@ -139,3 +139,6 @@
 /home/dunice/projects/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /home/dunice/projects/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /home/dunice/projects/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/home/dunice/projects/bin/Debug/net8.0/Microsoft.Extensions.Diagnostics.Abstractions.dll
+/home/dunice/projects/bin/Debug/net8.0/Microsoft.Extensions.Hosting.Abstractions.dll
+/home/dunice/projects/bin/Debug/net8.0/Microsoft.Extensions.ObjectPool.dll

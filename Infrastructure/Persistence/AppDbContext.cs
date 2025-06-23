@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace projects.Domain.Entities
 {
-    public class MyDbContext : DbContext
+    public class AppDbContext : DbContext
     {
 
-        public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Attendances> Attendances { get; set; }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-     {
+        public DbSet<StudentsInGroups> StudentsInGroups { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings => 
+                warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Id);
 
@@ -55,7 +61,7 @@ namespace projects.Domain.Entities
 
             modelBuilder.Entity<Group>()
                 .HasOne(g => g.Course)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(g => g.CourseId);
 
             modelBuilder.Entity<StudentsInGroups>()
@@ -68,7 +74,7 @@ namespace projects.Domain.Entities
 
             modelBuilder.Entity<StudentsInGroups>()
                 .HasOne(sg => sg.Group)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(sg => sg.GroupId);
 
             modelBuilder.Entity<Lesson>()
@@ -91,7 +97,7 @@ namespace projects.Domain.Entities
             modelBuilder.Entity<Attendances>()
                 .HasKey(a => a.Id);
 
-            _ = modelBuilder.Entity<Attendances>()
+            modelBuilder.Entity<Attendances>()
                 .HasOne(a => a.Lesson)
                 .WithMany()
                 .HasForeignKey(a => a.LessonId);

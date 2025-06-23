@@ -9,8 +9,8 @@ namespace projects.Domain.Entities
         public int Id { get; set; }
         public int StudentId { get; set; }
         public int GroupId { get; set; }
-        public required List<User> Student { get; set; }
-        public required List<Group> Group { get; set; }
+        public required User Student { get; set; }
+        public required Group Group { get; set; }
 
     }
 

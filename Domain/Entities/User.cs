@@ -16,6 +16,8 @@ namespace projects.Domain.Entities
         public required Course Courses { get; set; } // Курсы, созданные пользователем
         public required StudentsInGroups StudentGroups { get; set; } // Группы, в которых учится пользователь
         public required Attendances Attendances { get; set; } // Посещения
+
+       
     }
     public enum UserRole
     {
