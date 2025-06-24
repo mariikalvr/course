@@ -7,19 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<ICourseService, CourseService>();
+// builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => 
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            // Конфигурация JWT
-        };
-    });
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     .AddJwtBearer(options => 
+//     {
+//         options.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             // Конфигурация JWT
+//         };
+//     });
 
 var app = builder.Build();
 
