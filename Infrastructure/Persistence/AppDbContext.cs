@@ -28,11 +28,19 @@ namespace projects.Domain.Entities
                 .HasKey(u => u.Id);
 
             modelBuilder.Entity<User>()
-
                 .Property(u => u.Email)
                 .IsRequired()
                 .HasMaxLength(100);
-
+                
+            modelBuilder.Entity<User>()
+                .Property(u => u.FirstName)
+                .HasMaxLength(50)
+                .IsRequired();
+            
+            modelBuilder.Entity<User>()
+                .Property(u => u.LastName)
+                .HasMaxLength(50)
+                .IsRequired();    
 
             modelBuilder.Entity<Course>()
                 .HasKey(c => c.Id);

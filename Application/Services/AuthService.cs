@@ -1,67 +1,66 @@
-// using projects.Domain.Entities;
+using Domain.Enums;
+using Infrastructure.Auth;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using projects.Domain.Entities;
 
-// public class AuthService : IAuthService
-// {
-//     private readonly AppDbContext _context;
-//     private readonly IConfiguration _config;
-//     private readonly IPasswordHasher _passwordHasher;
+namespace Application.Services;
 
-//     public AuthService(AppDbContext context, IConfiguration config, IPasswordHasher passwordHasher)
-//     {
-//         _context = context;
-//         _config = config;
-//         _passwordHasher = passwordHasher;
-//     }
+public class AuthService
+{
+    private readonly AppDbContext _context;
+    private readonly JwtTokenGenerator _jwtTokenGenerator;
+    private readonly IPasswordHasher<User> _passwordHasher;
 
-//     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
-//     {
-//         // Проверка существования пользователя
-//         if (await _context.Users.AnyAsync(u => u.Email == request.Email))
-//             throw new BadRequestException("Email already exists");
+    public AuthService(
+        AppDbContext context,
+        JwtTokenGenerator jwtTokenGenerator,
+        IPasswordHasher<User> passwordHasher)
+    {
+        _context = context;
+        _jwtTokenGenerator = jwtTokenGenerator;
+        _passwordHasher = passwordHasher;
+    }
 
-//         var user = new User
-//         {
-//             Email = request.Email,
-//             PasswordHash = _passwordHasher.HashPassword(request.Password),
-//             Role = "Student" // По умолчанию
-//         };
+    public async Task<User> RegisterAsync(string email, string password, string firstName, string lastName, UserRole role = UserRole.Student)
+    {
+        if (await _context.Users.AnyAsync(u => u.Email == email))
+        {
+            throw new Exception("Email already exists");
+        }
 
-//         _context.Users.Add(user);
-//         await _context.SaveChangesAsync();
+        var user = new User
+        {
+            Email = email,
+            FirstName = firstName,
+            LastName = lastName,
+            Role = role,
+            PasswordHash = string.Empty
+        };
 
-//         return new AuthResponse(user.Id, user.Email, user.Role);
-//     }
+        // Хеширование пароля
+        user.PasswordHash = _passwordHasher.HashPassword(user, password);
 
-//     public async Task<string> LoginAsync(LoginRequest request)
-//     {
-//         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email)
-//             ?? throw new NotFoundException("User not found");
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
 
-//         if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
-//             throw new BadRequestException("Invalid credentials");
+        return user;
+    }
 
-//         return GenerateJwtToken(user);
-//     }
+    public async Task<string> LoginAsync(string email, string password)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        
+        if (user == null || _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) != PasswordVerificationResult.Success)
+        {
+            throw new Exception("Invalid credentials");
+        }
 
-//     private string GenerateJwtToken(User user)
-//     {
-//         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-//         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        return _jwtTokenGenerator.GenerateToken(user);
+    }
 
-//         var claims = new[]
-//         {
-//             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-//             new Claim(ClaimTypes.Email, user.Email),
-//             new Claim(ClaimTypes.Role, user.Role)
-//         };
-
-//         var token = new JwtSecurityToken(
-//             _config["Jwt:Issuer"],
-//             _config["Jwt:Audience"],
-//             claims,
-//             expires: DateTime.Now.AddDays(7),
-//             signingCredentials: credentials);
-
-//         return new JwtSecurityTokenHandler().WriteToken(token);
-//     }
-// }
+    public async Task<User> GetUserProfileAsync(int userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
+}
